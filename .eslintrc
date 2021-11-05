@@ -88,6 +88,6 @@
         "no-else-return":"warn",
         "no-restricted-properties":"warn",
         "react/jsx-closing-tag-location":"warn",
-        "react/jsx-indent":"warn"
+        "react/jsx-indent":"off"
       }
 }
