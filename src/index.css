@@ -26,3 +26,28 @@
 .box__icon {
   margin-bottom: 10px;
 }
+
+.beforeIcon:before {
+  position: absolute;
+  left: -15px;
+  top: 0px;
+  content: '';
+  display: block;
+  border-left: 1px solid #000;
+  height: 0.8em;
+  border-bottom: 1px solid #000;
+  width: 0.8em;
+}
+
+.ml-8 {
+  margin-left: 50px;
+}
+.ml-12 {
+  margin-left: 70px;
+}
+.ml-12 {
+  margin-left: 90px;
+}
+.ml-12 {
+  margin-left: 110px;
+}

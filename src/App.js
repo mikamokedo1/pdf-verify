@@ -145,7 +145,7 @@ export const App = () => {
     setSignatureError(false);
   };
   return (
-    <div className="container p-3">
+    <div className="container-fluid p-3">
       {signature ? (
         <>
           <div className="col text-center">
@@ -153,24 +153,48 @@ export const App = () => {
               Tải lại
             </button>
           </div>
-          <div className="d-flex">
-            <div className="order-2 ml-4">
+          <div className="d-flex justify-content-center">
+            <div className="order-2 ml-5">
               <h4 className="text-center mb-4 text-primary">Thông tin chữ ký</h4>
               {signatureError ? (
                 <div className="error-msg text-md text-center text-md">Văn bản chưa được ký</div>
               ) : (
-                <div className="text-center">
+                <div>
                   {signature &&
-                    (signature.signaturesReports.diagnosticData.signatures ?? []).map((sig) => {
+                    (signature.signaturesReports.diagnosticData.signatures ?? []).map((sig, index) => {
                       const sigDetail = (signature.signaturesReports.diagnosticData.usedCertificates ?? []).find(
                         (item) => item.id === sig.signingCertificate.id,
                       );
                       return (
                         <div className="mb-2" style={{ borderBottom: '1px solid gray' }}>
                           <p>{`Người ký : ${sigDetail.commonName}`}</p>
+                          {sigDetail.organizationName && <p>{`Tên tổ chức : ${sigDetail.organizationName}`}</p>}
+                          {sigDetail.organizationalUnit && <p>{`Đơn vị tổ chức : ${sigDetail.organizationalUnit}`}</p>}
                           <p>{`Địa chỉ : ${sigDetail.locality || ''} ${sigDetail.state || ''}`}</p>
                           <p>{`Email : ${sigDetail.email}`}</p>
                           <p>{`Ngày ký : ${format(new Date(sig.dateTime), 'dd-MM-yy hh:mm:a')}`}</p>
+                          <div className="d-flex">
+                            <p className="flex-shrink-0 mr-4">Đường dẫn chứng chỉ:</p>
+                            <ul>
+                              {(
+                                signature?.signaturesReports?.simpleReport?.signature[index]?.certificateChain
+                                  ?.certificate ?? []
+                              )
+                                .slice()
+                                .reverse()
+                                .map((item, indexChild) => {
+                                  return (
+                                    <li
+                                      className={`list-unstyled ${`ml-${4 * indexChild}`} ${
+                                        indexChild !== 0 ? 'position-relative beforeIcon' : ''
+                                      }`}
+                                    >
+                                      {item.qualifiedName}
+                                    </li>
+                                  );
+                                })}
+                            </ul>
+                          </div>
                         </div>
                       );
                     })}
@@ -197,124 +221,127 @@ export const App = () => {
           isDragFile={isDragFile}
         >
           {onLoading ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              width="200px"
-              height="200px"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="xMidYMid"
-            >
-              <circle cx="84" cy="50" r="10" fill="#e15b64">
-                <animate
-                  attributeName="r"
-                  repeatCount="indefinite"
-                  dur="0.25s"
-                  calcMode="spline"
-                  keyTimes="0;1"
-                  values="10;0"
-                  keySplines="0 0.5 0.5 1"
-                  begin="0s"
-                />
-                <animate
-                  attributeName="fill"
-                  repeatCount="indefinite"
-                  dur="1s"
-                  calcMode="discrete"
-                  keyTimes="0;0.25;0.5;0.75;1"
-                  values="#e15b64;#abbd81;#f8b26a;#f47e60;#e15b64"
-                  begin="0s"
-                />
-              </circle>
-              <circle cx="16" cy="50" r="10" fill="#e15b64">
-                <animate
-                  attributeName="r"
-                  repeatCount="indefinite"
-                  dur="1s"
-                  calcMode="spline"
-                  keyTimes="0;0.25;0.5;0.75;1"
-                  values="0;0;10;10;10"
-                  keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-                  begin="0s"
-                />
-                <animate
-                  attributeName="cx"
-                  repeatCount="indefinite"
-                  dur="1s"
-                  calcMode="spline"
-                  keyTimes="0;0.25;0.5;0.75;1"
-                  values="16;16;16;50;84"
-                  keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-                  begin="0s"
-                />
-              </circle>
-              <circle cx="50" cy="50" r="10" fill="#f47e60">
-                <animate
-                  attributeName="r"
-                  repeatCount="indefinite"
-                  dur="1s"
-                  calcMode="spline"
-                  keyTimes="0;0.25;0.5;0.75;1"
-                  values="0;0;10;10;10"
-                  keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-                  begin="-0.25s"
-                />
-                <animate
-                  attributeName="cx"
-                  repeatCount="indefinite"
-                  dur="1s"
-                  calcMode="spline"
-                  keyTimes="0;0.25;0.5;0.75;1"
-                  values="16;16;16;50;84"
-                  keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-                  begin="-0.25s"
-                />
-              </circle>
-              <circle cx="84" cy="50" r="10" fill="#f8b26a">
-                <animate
-                  attributeName="r"
-                  repeatCount="indefinite"
-                  dur="1s"
-                  calcMode="spline"
-                  keyTimes="0;0.25;0.5;0.75;1"
-                  values="0;0;10;10;10"
-                  keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-                  begin="-0.5s"
-                />
-                <animate
-                  attributeName="cx"
-                  repeatCount="indefinite"
-                  dur="1s"
-                  calcMode="spline"
-                  keyTimes="0;0.25;0.5;0.75;1"
-                  values="16;16;16;50;84"
-                  keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-                  begin="-0.5s"
-                />
-              </circle>
-              <circle cx="16" cy="50" r="10" fill="#abbd81">
-                <animate
-                  attributeName="r"
-                  repeatCount="indefinite"
-                  dur="1s"
-                  calcMode="spline"
-                  keyTimes="0;0.25;0.5;0.75;1"
-                  values="0;0;10;10;10"
-                  keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-                  begin="-0.75s"
-                />
-                <animate
-                  attributeName="cx"
-                  repeatCount="indefinite"
-                  dur="1s"
-                  calcMode="spline"
-                  keyTimes="0;0.25;0.5;0.75;1"
-                  values="16;16;16;50;84"
-                  keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-                  begin="-0.75s"
-                />
-              </circle>
-            </svg>
+            <div className="text-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                width="200px"
+                height="200px"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="xMidYMid"
+              >
+                <circle cx="84" cy="50" r="10" fill="#e15b64">
+                  <animate
+                    attributeName="r"
+                    repeatCount="indefinite"
+                    dur="0.25s"
+                    calcMode="spline"
+                    keyTimes="0;1"
+                    values="10;0"
+                    keySplines="0 0.5 0.5 1"
+                    begin="0s"
+                  />
+                  <animate
+                    attributeName="fill"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    calcMode="discrete"
+                    keyTimes="0;0.25;0.5;0.75;1"
+                    values="#e15b64;#abbd81;#f8b26a;#f47e60;#e15b64"
+                    begin="0s"
+                  />
+                </circle>
+                <circle cx="16" cy="50" r="10" fill="#e15b64">
+                  <animate
+                    attributeName="r"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    calcMode="spline"
+                    keyTimes="0;0.25;0.5;0.75;1"
+                    values="0;0;10;10;10"
+                    keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
+                    begin="0s"
+                  />
+                  <animate
+                    attributeName="cx"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    calcMode="spline"
+                    keyTimes="0;0.25;0.5;0.75;1"
+                    values="16;16;16;50;84"
+                    keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
+                    begin="0s"
+                  />
+                </circle>
+                <circle cx="50" cy="50" r="10" fill="#f47e60">
+                  <animate
+                    attributeName="r"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    calcMode="spline"
+                    keyTimes="0;0.25;0.5;0.75;1"
+                    values="0;0;10;10;10"
+                    keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
+                    begin="-0.25s"
+                  />
+                  <animate
+                    attributeName="cx"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    calcMode="spline"
+                    keyTimes="0;0.25;0.5;0.75;1"
+                    values="16;16;16;50;84"
+                    keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
+                    begin="-0.25s"
+                  />
+                </circle>
+                <circle cx="84" cy="50" r="10" fill="#f8b26a">
+                  <animate
+                    attributeName="r"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    calcMode="spline"
+                    keyTimes="0;0.25;0.5;0.75;1"
+                    values="0;0;10;10;10"
+                    keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
+                    begin="-0.5s"
+                  />
+                  <animate
+                    attributeName="cx"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    calcMode="spline"
+                    keyTimes="0;0.25;0.5;0.75;1"
+                    values="16;16;16;50;84"
+                    keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
+                    begin="-0.5s"
+                  />
+                </circle>
+                <circle cx="16" cy="50" r="10" fill="#abbd81">
+                  <animate
+                    attributeName="r"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    calcMode="spline"
+                    keyTimes="0;0.25;0.5;0.75;1"
+                    values="0;0;10;10;10"
+                    keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
+                    begin="-0.75s"
+                  />
+                  <animate
+                    attributeName="cx"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    calcMode="spline"
+                    keyTimes="0;0.25;0.5;0.75;1"
+                    values="16;16;16;50;84"
+                    keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
+                    begin="-0.75s"
+                  />
+                </circle>
+              </svg>
+              <p className="text-info">Xin vui lòng chờ trong giây lát!!!</p>
+            </div>
           ) : (
             <>
               <div style={{ cursor: 'pointer' }} onClick={() => inputRef.current && inputRef.current.click()}>
