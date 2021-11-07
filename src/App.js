@@ -1,13 +1,11 @@
 import React, { useState, useRef } from 'react';
 // Import the main component
-import { Viewer } from '@react-pdf-viewer/core'; // install this library
+import { Viewer, Worker, SpecialZoomLevel } from '@react-pdf-viewer/core'; // install this library
 // Plugins
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'; // install this library
 // Import the styles
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-// Worker
-import { Worker } from '@react-pdf-viewer/core'; // install this library
 import styled from 'styled-components';
 import axios from 'axios';
 import { format } from 'date-fns';
@@ -204,8 +202,12 @@ export const App = () => {
             <div className="order-1">
               <h4 className="text-center mb-4 text-primary">Nội dung văn bản</h4>
               <div className="pdf-container">
-                <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-                  <Viewer fileUrl={viewPdf} plugins={[defaultLayoutPluginInstance]} />
+                <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.10.377/build/pdf.worker.js">
+                  <Viewer
+                    fileUrl={viewPdf}
+                    plugins={[defaultLayoutPluginInstance]}
+                    defaultScale={SpecialZoomLevel.PageFit}
+                  />
                 </Worker>
               </div>
             </div>

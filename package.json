@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ninja-labs/verify-pdf": "^0.3.9",
-    "@react-pdf-viewer/core": "^2.4.1",
-    "@react-pdf-viewer/default-layout": "^2.4.1",
+    "@react-pdf-viewer/core": "2.7.2",
+    "@react-pdf-viewer/default-layout": "2.7.2",
+    "pdfjs-dist": "^2.10.377",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
@@ -15,7 +15,6 @@
     "date-fns": "^2.25.0",
     "eslint": "^7.32.0",
     "eslint-plugin-mdx": "^1.16.0",
-    "pdfjs-dist": "^2.6.347",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
@@ -23,9 +22,9 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "set HTTPS=true&react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "set HTTPS=true&react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "lint": "eslint './src/**/*.{js,jsx}'",
     "lint:fix": "eslint './src/**/*.{js,jsx}' --fix"
@@ -51,6 +50,7 @@
   "devDependencies": {
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "react-app-rewired": "^2.1.8"
   }
 }
