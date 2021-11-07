@@ -203,11 +203,7 @@ export const App = () => {
               <h4 className="text-center mb-4 text-primary">Nội dung văn bản</h4>
               <div className="pdf-container">
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.10.377/build/pdf.worker.js">
-                  <Viewer
-                    fileUrl={viewPdf}
-                    plugins={[defaultLayoutPluginInstance]}
-                    defaultScale={SpecialZoomLevel.PageFit}
-                  />
+                  <Viewer fileUrl={viewPdf} plugins={[defaultLayoutPluginInstance]} defaultScale={1} />
                 </Worker>
               </div>
             </div>
